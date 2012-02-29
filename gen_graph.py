@@ -13,6 +13,7 @@ db_is_new = not os.path.exists(db_filename)
 
 out_file = sys.argv[2]
 
+print "Processing: " + db_filename
 print "Saving to: " + out_file
 
 with sqlite3.connect(db_filename) as conn:
