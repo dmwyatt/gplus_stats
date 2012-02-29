@@ -2,7 +2,7 @@ Set up a cronjob to run profile.py every X minutes:
 */15 * * * * cd /home/dustin/gplus_followers; /home/dustin/env/bin/python /home/Dustin/gplus/profile.py
 
 Generate a graph of followers:
-python gen_graph.py
+python gen_graph.py profile.db graph.png
 
 Requires:
 matplotlib
