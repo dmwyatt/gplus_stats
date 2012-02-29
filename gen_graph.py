@@ -13,6 +13,8 @@ db_is_new = not os.path.exists(db_filename)
 
 out_file = sys.argv[2]
 
+print "Saving to: " + out_file
+
 with sqlite3.connect(db_filename) as conn:
     if db_is_new:
         #create db
@@ -51,7 +53,6 @@ with sqlite3.connect(db_filename) as conn:
         diff = now-datum[0]
 
         if diff < hours24:
-            print "24 hours: {0:d}, now: {1:d}, old: {2:d}, diff: {3:d}".format(hours24, now, datum[0], now - datum[0])
             data[profile_id].append(int(datum[1]))
             legend.append(datum[0])
 
@@ -69,3 +70,5 @@ with sqlite3.connect(db_filename) as conn:
     plot.plot(matplotlib.dates.epoch2num(legend), data[profile_id])
     fig.autofmt_xdate(rotation=90)
     plot.savefig(out_file)
+
+    print "Saved %d data points" % len(data[profile_id])
