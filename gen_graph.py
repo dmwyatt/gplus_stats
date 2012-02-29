@@ -5,10 +5,13 @@ import matplotlib.pyplot as plot
 import matplotlib.dates
 import sqlite3
 import os
+import sys
 
-db_filename = 'profile.db'
+db_filename = sys.argv[1]
 
 db_is_new = not os.path.exists(db_filename)
+
+out_file = sys.argv[2]
 
 with sqlite3.connect(db_filename) as conn:
     if db_is_new:
@@ -65,4 +68,4 @@ with sqlite3.connect(db_filename) as conn:
 
     plot.plot(matplotlib.dates.epoch2num(legend), data[profile_id])
     fig.autofmt_xdate(rotation=90)
-    plot.savefig("test2.png")
+    plot.savefig(out_file)
