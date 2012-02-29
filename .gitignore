@@ -3,3 +3,4 @@ ubuntu_env/
 *.db
 *.svg
 gplus/
+*.png

@@ -1,5 +1,7 @@
+import time
+import matplotlib.pyplot as plot
+import matplotlib.dates
 import sqlite3
-import CairoPlot
 import os
 
 db_filename = 'profile.db'
@@ -30,14 +32,35 @@ with sqlite3.connect(db_filename) as conn:
 
     results = cursor.fetchall()
 
+    #all data
     data = {profile_id: []}
     legend = []
+#    for datum in results:
+#        data[profile_id].append(int(datum[1]))
+#        legend.append(datum[0])
+
+    now = int(time.time())
+    hours24 = 48*60*60
+
     for datum in results:
-        data[profile_id].append(int(datum[1]))
-        legend.append(datum[0])
+        diff = now-datum[0]
 
-#    print data
-#    print legend
+        if diff < hours24:
+            print "24 hours: {0:d}, now: {1:d}, old: {2:d}, diff: {3:d}".format(hours24, now, datum[0], now - datum[0])
+            data[profile_id].append(int(datum[1]))
+            legend.append(datum[0])
 
-    CairoPlot.dot_line_plot("test", data, 1000, 500, h_labels = legend, axis = True, grid = True)
+    hfmt = matplotlib.dates.DateFormatter('%m/%d %H:%M')
 
+    fig = plot.figure()
+    ax = fig.add_subplot(111)
+#    ax.vlines(legend, y2, y1)
+#
+#    ax.xaxis.set_major_locator(matplotlib.dates.MinuteLocator())
+    ax.xaxis.set_major_formatter(hfmt)
+#    plot.xticks(rotation=90)
+
+
+    plot.plot(matplotlib.dates.epoch2num(legend), data[profile_id])
+    fig.autofmt_xdate(rotation=90)
+    plot.savefig("test2.png")

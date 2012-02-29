@@ -53,7 +53,7 @@ with sqlite3.connect(db_filename) as conn:
     followers = get_followers(profile_id)
 
     if followers:
-        timestamp = time.time()
+        timestamp = int(time.time())
         sql = "insert into follower_count (profile, datetime, followers) values (?, ?, ?)"
         conn.execute(sql, (profile_id, timestamp, followers))
         print "inserted follower count of: %i" % followers
