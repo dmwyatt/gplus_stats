@@ -1,7 +1,5 @@
-import HTMLParser
 import time
 import re
-#import CairoPlot
 import sqlite3
 import os
 import requests
@@ -9,10 +7,7 @@ import requests
 def get_followers(profile_id):
     profile_url = 'https://plus.google.com/%s/posts' % profile_id
     r = requests.get(profile_url, verify=False)
-#    p = LinksParser('h4', 'class', "nPQ0Mb pD8zNd")
-#    p.feed(r.text)
-#    with codecs.open('output.html', 'w',"utf-8-sig") as f:
-#        f.write(r.text)
+
     p = re.compile(r'<h4\ class="nPQ0Mb\ pD8zNd">[\w+\ ]+\((\d+)\)')
     result = p.search(r.text)
     if result:

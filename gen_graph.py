@@ -61,11 +61,9 @@ with sqlite3.connect(db_filename) as conn:
 
     fig = plot.figure()
     ax = fig.add_subplot(111)
-#    ax.vlines(legend, y2, y1)
-#
-#    ax.xaxis.set_major_locator(matplotlib.dates.MinuteLocator())
+
     ax.xaxis.set_major_formatter(hfmt)
-#    plot.xticks(rotation=90)
+    ax.yaxis.major.formatter.set_scientific(False)
 
 
     plot.plot(matplotlib.dates.epoch2num(legend), data[profile_id])
