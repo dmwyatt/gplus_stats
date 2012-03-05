@@ -63,7 +63,10 @@ with sqlite3.connect(db_filename) as conn:
     ax = fig.add_subplot(111)
 
     ax.xaxis.set_major_formatter(hfmt)
-    ax.yaxis.major.formatter.set_scientific(False)
+
+    formy = plot.ScalarFormatter()
+    formy.set_scientific(False)
+    ax.yaxis.set_major_formatter(formy)
 
 
     plot.plot(matplotlib.dates.epoch2num(legend), data[profile_id])
