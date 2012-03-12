@@ -57,17 +57,15 @@ with sqlite3.connect(db_filename) as conn:
             data[profile_id].append(int(datum[1]))
             legend.append(datum[0])
 
-    hfmt = matplotlib.dates.DateFormatter('%m/%d %H:%M')
-
     fig = plot.figure()
     ax = fig.add_subplot(111)
 
+    hfmt = matplotlib.dates.DateFormatter('%m/%d %H:%M')
     ax.xaxis.set_major_formatter(hfmt)
 
-    formy = plot.ScalarFormatter()
+    formy = matplotlib.ticker.ScalarFormatter()
     formy.set_scientific(False)
     ax.yaxis.set_major_formatter(formy)
-
 
     plot.plot(matplotlib.dates.epoch2num(legend), data[profile_id])
     fig.autofmt_xdate(rotation=90)
