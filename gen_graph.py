@@ -3,6 +3,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plot
 import matplotlib.dates
+from matplotlib.ticker import FormatStrFormatter
 import sqlite3
 import os
 import sys
@@ -12,6 +13,11 @@ db_filename = sys.argv[1]
 db_is_new = not os.path.exists(db_filename)
 
 out_file = sys.argv[2]
+
+try:
+    hours_to_graph = int(sys.argv[3])
+except:
+    hours_to_graph = -1
 
 print "Processing: " + db_filename
 print "Saving to: " + out_file
@@ -48,12 +54,19 @@ with sqlite3.connect(db_filename) as conn:
 #        legend.append(datum[0])
 
     now = int(time.time())
-    hours24 = 48*60*60
+
+    if hours_to_graph > -1:
+        hours24 = hours_to_graph*60*60
+
 
     for datum in results:
-        diff = now-datum[0]
+        if hours_to_graph > -1:
+            diff = now-datum[0]
 
-        if diff < hours24:
+            if diff < hours24:
+                data[profile_id].append(int(datum[1]))
+                legend.append(datum[0])
+        else:
             data[profile_id].append(int(datum[1]))
             legend.append(datum[0])
 
@@ -63,9 +76,9 @@ with sqlite3.connect(db_filename) as conn:
     hfmt = matplotlib.dates.DateFormatter('%m/%d %H:%M')
     ax.xaxis.set_major_formatter(hfmt)
 
-    formy = matplotlib.ticker.ScalarFormatter()
-    formy.set_scientific(False)
-    ax.yaxis.set_major_formatter(formy)
+#    formy = matplotlib.ticker.ScalarFormatter()
+#    formy.set_scientific(False)
+    ax.yaxis.set_major_formatter(FormatStrFormatter('%d'))
 
     plot.plot(matplotlib.dates.epoch2num(legend), data[profile_id])
     fig.autofmt_xdate(rotation=90)
