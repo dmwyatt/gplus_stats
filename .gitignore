@@ -1,6 +1,4 @@
 ubuntu_env/
 /.idea/
-*.db
 *.svg
 gplus/
-*.png
