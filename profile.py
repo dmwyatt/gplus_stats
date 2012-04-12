@@ -3,6 +3,7 @@ import re
 import sqlite3
 import os
 import requests
+import sys
 
 def get_followers(profile_id):
     profile_url = 'https://plus.google.com/%s/posts' % profile_id
@@ -19,6 +20,8 @@ def get_followers(profile_id):
                 return followers
             except ValueError:
                 return
+    else:
+        sys.stderr.write("no result whilst parsing for follower count\n")
     return
 
 
@@ -53,4 +56,4 @@ with sqlite3.connect(db_filename) as conn:
         conn.execute(sql, (profile_id, timestamp, followers))
         print "inserted follower count of: %i" % followers
     else:
-        print "unable to fetch followers"
+        sys.stderr.write("unable to fetch followers\n")

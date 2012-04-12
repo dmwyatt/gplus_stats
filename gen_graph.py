@@ -17,7 +17,7 @@ out_file = sys.argv[2]
 try:
     hours_to_graph = int(sys.argv[3])
 except:
-    hours_to_graph = -1
+    hours_to_graph = 100000
 
 print "Processing: " + db_filename
 print "Saving to: " + out_file
@@ -54,21 +54,19 @@ with sqlite3.connect(db_filename) as conn:
 #        legend.append(datum[0])
 
     now = int(time.time())
-
-    if hours_to_graph > -1:
-        hours24 = hours_to_graph*60*60
+    hours_in_the_past = hours_to_graph*60*60
 
 
     for datum in results:
-        if hours_to_graph > -1:
-            diff = now-datum[0]
+#        if hours_to_graph > -1:
+        diff = now-datum[0]
 
-            if diff < hours24:
-                data[profile_id].append(int(datum[1]))
-                legend.append(datum[0])
-        else:
+        if diff < hours_in_the_past:
             data[profile_id].append(int(datum[1]))
             legend.append(datum[0])
+#        else:
+#            data[profile_id].append(int(datum[1]))
+#            legend.append(datum[0])
 
     fig = plot.figure()
     ax = fig.add_subplot(111)
