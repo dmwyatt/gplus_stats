@@ -1,3 +1,8 @@
+This NO LONGER WORKS.  Changes to the G+ website made it more difficult to parse the info we want out of profile pages,
+and I'm not currently interested in figuring out Google's private API for this info.
+
+Leaving up to remind me to look at it in the future.
+
 Set up a cronjob to run profile.py every X minutes:
 */15 * * * * cd /home/dustin/gplus_followers; /home/dustin/env/bin/python /home/Dustin/gplus/profile.py
 
